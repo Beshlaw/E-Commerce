@@ -55,13 +55,7 @@ class _SearchViewState extends State<SearchView> {
                       } else if (state is ProductByIdLoading) {
                         return Center(child: CircularProgressIndicator());
                       } else {
-                        return Center(
-                          child: Text(
-                            state is ProductByIdError
-                                ? state.message
-                                : 'No Product yet!',
-                          ),
-                        );
+                        return Center(child: Text('No Product Found!'));
                       }
                     },
                   ),

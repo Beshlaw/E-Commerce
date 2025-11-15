@@ -1,5 +1,7 @@
 import 'package:e_commerce_app/helpers/cubit/all_product_cubit.dart';
+import 'package:e_commerce_app/helpers/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/models/product_model.dart';
+import 'package:e_commerce_app/views/cart_view.dart';
 import 'package:e_commerce_app/views/product_view.dart';
 import 'package:e_commerce_app/views/search_view.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  List<ProductModel> kProducts = [];
   @override
   void initState() {
     context.read<AllProductCubit>().fetchAllProducts();
@@ -39,7 +42,14 @@ class _HomeViewState extends State<HomeView> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartView(products: kProducts),
+                ),
+              );
+            },
             icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
           ),
         ],
@@ -48,6 +58,7 @@ class _HomeViewState extends State<HomeView> {
         builder: (context, state) {
           if (state is AllProductLoaded) {
             final products = state.products;
+            kProducts = products;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ListView.builder(
@@ -114,7 +125,9 @@ class ProductCard extends StatelessWidget {
           ),
           subtitle: Text('\$${product.price}'),
           trailing: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<CartCubit>().addItem(product.id.toString());
+            },
             icon: Icon(Icons.add_shopping_cart),
           ),
         ),
