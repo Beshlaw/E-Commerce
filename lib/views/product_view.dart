@@ -8,7 +8,13 @@ class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(product.title), centerTitle: true),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(product.title),
+        centerTitle: true,
+        backgroundColor: Color(0xff121212),
+        foregroundColor: Color(0xffffffff),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
