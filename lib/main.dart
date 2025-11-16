@@ -2,6 +2,8 @@ import 'package:e_commerce_app/helpers/cubit/all_product_cubit.dart';
 import 'package:e_commerce_app/helpers/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/helpers/cubit/product_by_id_cubit.dart';
 import 'package:e_commerce_app/models/cart_item_model.dart';
+import 'package:e_commerce_app/models/cart_item_model_enhanced.dart';
+import 'package:e_commerce_app/models/product_model.dart';
 import 'package:e_commerce_app/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(CartItemModelAdapter());
+  Hive.registerAdapter(CartItemModelEnhancedAdapter());
+  Hive.registerAdapter(ProductModelAdapter());
+  Hive.registerAdapter(CategoryAdapter());
+  Hive.registerAdapter(RatingAdapter());
+  await Hive.openBox<CartItemModel>('stableCartBox');
   await Hive.openBox<CartItemModel>('cartBox');
   runApp(const MyApp());
 }
