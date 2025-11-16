@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/helpers/cubit/all_product_cubit.dart';
-import 'package:e_commerce_app/helpers/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/helpers/cubit/stable_cart_cubit.dart';
 import 'package:e_commerce_app/models/product_model.dart';
 import 'package:e_commerce_app/views/cart_view.dart';
 import 'package:e_commerce_app/views/product_view.dart';
@@ -126,7 +126,7 @@ class ProductCard extends StatelessWidget {
           subtitle: Text('\$${product.price}'),
           trailing: IconButton(
             onPressed: () {
-              context.read<CartCubit>().addItem(product.id.toString());
+              context.read<StableCartCubit>().addItem(product);
             },
             icon: Icon(Icons.add_shopping_cart),
           ),

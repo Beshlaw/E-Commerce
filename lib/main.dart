@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/helpers/cubit/all_product_cubit.dart';
-import 'package:e_commerce_app/helpers/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/helpers/cubit/product_by_id_cubit.dart';
+import 'package:e_commerce_app/helpers/cubit/stable_cart_cubit.dart';
 import 'package:e_commerce_app/models/cart_item_model.dart';
 import 'package:e_commerce_app/models/cart_item_model_enhanced.dart';
 import 'package:e_commerce_app/models/product_model.dart';
@@ -17,7 +17,7 @@ void main() async {
   Hive.registerAdapter(ProductModelAdapter());
   Hive.registerAdapter(CategoryAdapter());
   Hive.registerAdapter(RatingAdapter());
-  await Hive.openBox<CartItemModel>('stableCartBox');
+  await Hive.openBox<CartItemModelEnhanced>('stableCartBox');
   await Hive.openBox<CartItemModel>('cartBox');
   runApp(const MyApp());
 }
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AllProductCubit()),
         BlocProvider(create: (context) => ProductByIdCubit()),
-        BlocProvider(create: (context) => CartCubit()),
+        BlocProvider(create: (context) => StableCartCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
