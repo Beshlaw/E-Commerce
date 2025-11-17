@@ -1,6 +1,10 @@
+import 'package:e_commerce_app/helpers/cubit/stable_cart_cubit.dart';
+import 'package:e_commerce_app/helpers/providers/cart_indecator.dart';
 import 'package:e_commerce_app/models/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ProductView extends StatelessWidget {
   const ProductView({super.key, required this.product});
@@ -60,7 +64,13 @@ class ProductView extends StatelessWidget {
                 backgroundColor: Color(0xff121212),
                 foregroundColor: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.read<StableCartCubit>().addItem(product);
+                Provider.of<CartIndecator>(
+                  context,
+                  listen: false,
+                ).cartIncrement();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

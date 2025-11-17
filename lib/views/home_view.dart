@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/helpers/cubit/all_product_cubit.dart';
 import 'package:e_commerce_app/helpers/cubit/stable_cart_cubit.dart';
+import 'package:e_commerce_app/helpers/providers/cart_indecator.dart';
 import 'package:e_commerce_app/models/product_model.dart';
 import 'package:e_commerce_app/views/cart_view.dart';
 import 'package:e_commerce_app/views/product_view.dart';
@@ -7,6 +8,7 @@ import 'package:e_commerce_app/views/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -41,16 +43,37 @@ class _HomeViewState extends State<HomeView> {
           icon: Icon(Icons.search, color: Colors.white),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CartView(products: kProducts),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CartView(products: kProducts),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
+              ),
+              Positioned(
+                bottom: 8,
+                right: 8,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(999),
+                    color: Color(0xffffffff),
+                  ),
+                  child: Consumer<CartIndecator>(
+                    builder: (context, value, child) => Text(
+                      '${value.cartIndecator}',
+                      style: TextStyle(fontSize: 8, color: Color(0xff121212)),
+                    ),
+                  ),
                 ),
-              );
-            },
-            icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
+              ),
+            ],
           ),
         ],
       ),
@@ -124,11 +147,14 @@ class ProductCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text('\$${product.price}'),
-          trailing: IconButton(
-            onPressed: () {
-              context.read<StableCartCubit>().addItem(product);
-            },
-            icon: Icon(Icons.add_shopping_cart),
+          trailing: Consumer<CartIndecator>(
+            builder: (context, value, child) => IconButton(
+              onPressed: () {
+                context.read<StableCartCubit>().addItem(product);
+                value.cartIncrement();
+              },
+              icon: Icon(Icons.add_shopping_cart),
+            ),
           ),
         ),
       ),

@@ -42,4 +42,12 @@ class StableCart {
     }
     return totalPrice;
   }
+
+  int get totalItems {
+    int totalItems = 0;
+    for (var item in cartItems) {
+      totalItems += item.qty;
+    }
+    return totalItems;
+  }
 }

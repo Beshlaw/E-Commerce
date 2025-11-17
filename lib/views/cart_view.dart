@@ -1,8 +1,10 @@
 import 'package:e_commerce_app/helpers/cubit/stable_cart_cubit.dart';
+import 'package:e_commerce_app/helpers/providers/cart_indecator.dart';
 import 'package:e_commerce_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key, required this.products});
@@ -13,7 +15,6 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  double totalPrice = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +60,10 @@ class _CartViewState extends State<CartView> {
                                     context
                                         .read<StableCartCubit>()
                                         .decreaseItem(item.product);
-                                    totalPrice -= item.product.price * 2;
+                                    Provider.of<CartIndecator>(
+                                      context,
+                                      listen: false,
+                                    ).cartDecrement();
                                   },
                                   icon: Icon(Icons.remove_circle_outline),
                                 ),
@@ -69,6 +73,10 @@ class _CartViewState extends State<CartView> {
                                     context.read<StableCartCubit>().addItem(
                                       item.product,
                                     );
+                                    Provider.of<CartIndecator>(
+                                      context,
+                                      listen: false,
+                                    ).cartIncrement();
                                   },
                                   icon: Icon(Icons.add_circle_outline),
                                 ),
